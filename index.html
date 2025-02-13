@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta de San Valentín</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffccd5;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        .card-container {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+        .card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .card-front {
+            background-color: #ff4d6d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .card-back {
+            background-color: white;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .buttons {
+            margin-top: 15px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .yes-btn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+        .no-btn {
+            background-color: #ccc;
+            color: black;
+            position: relative;
+        }
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            animation: floatUp 3s linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh); opacity: 1; }
+            100% { transform: translateY(-10vh); opacity: 0; }
+        }
+        .message {
+            display: none;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff4d6d;
+            margin-top: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container" onclick="flipCard()">
+        <div class="card" id="valentineCard">
+            <div class="card-front">💌 presiona mi reina 💌</div>
+            <div class="card-back">
+                <p>💕 Hola mi vida 💕</p>
+                <p>¿Quieres ser mi Valentín súper especial? 💖</p>
+                <div class="buttons">
+                    <button class="yes-btn" onclick="showHearts()">Sí</button>
+                    <button class="no-btn" id="noButton">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="message" id="message">Barbaro amor, nos vemos mañana en Santa Marta para disfrutar nuestro día 🤍</p>
+    <div class="hearts" id="heartsContainer"></div>
+    <script>
+        let flipped = false;
+        function flipCard() {
+            if (!flipped) {
+                document.getElementById("valentineCard").classList.add("flipped");
+                flipped = true;
+            }
+        }
+        
+        function showHearts() {
+            document.getElementById("message").style.display = "block";
+            for (let i = 0; i < 30; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = (Math.random() * 2 + 2) + "s";
+                heart.style.fontSize = Math.random() * 20 + 20 + "px";
+                document.getElementById("heartsContainer").appendChild(heart);
+                setTimeout(() => heart.remove(), 3000);
+            }
+        }
+        
+        const noButton = document.getElementById("noButton");
+        noButton.addEventListener("mouseover", function() {
+            const x = Math.random() * 80;
+            const y = Math.random() * 80;
+            noButton.style.position = "absolute";
+            noButton.style.left = `${x}%`;
+            noButton.style.top = `${y}%`;
+        });
+    </script>
+</body>
+</html>
